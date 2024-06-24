@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vending Machine</title>
+    <style>
+      .product {
+        margin-bottom: 20px;
+      }
+      .output {
+        margin-top: 20px;
+        padding: 10px;
+        border: 1px solid #000;
+        width: 200px;
+        height: 50px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Vending Machine</h1>
+
+    <div class="product">
+      <div id="a">Product A</div>
+      <button onclick="selectProduct('Product A')">Get Product A</button>
+    </div>
+
+    <div class="product">
+      <div id="b">Product B</div>
+      <button onclick="selectProduct('Product B')">Get Product B</button>
+    </div>
+
+    <div class="product">
+      <div id="c">Product C</div>
+      <button onclick="selectProduct('Product C')">Get Product C</button>
+    </div>
+
+    <div id="output" class="output">Product will appear here</div>
+
+    <script>
+      function selectProduct(product) {
+        fetch("http://localhost:3000/get-item", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ item: product }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            const output = document.getElementById("output");
+            output.textContent = data.item;
+          })
+          .catch((error) => console.error("Error:", error));
+      }
+    </script>
+  </body>
+</html>
